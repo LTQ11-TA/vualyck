@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TƯỢNG ĐÀI LÝ THÁI TỔ</title>
+
+
+<!-- =====================================================
+     ƯU TIÊN TẢI MODEL-VIEWER
+====================================================== -->
+
+<link
+    rel="modulepreload"
+    href="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+
+<script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+</script>
+
+
+<!-- =====================================================
+     ƯU TIÊN TẢI FILE 3D
+     
+     NẾU FILE CÂY ĐA.GLB NẰM CÙNG THƯ MỤC
+     THÌ GIỮ NGUYÊN DÒNG NÀY.
+
+     NẾU BẠN ĐÃ ĐƯA FILE GLB LÊN WORDPRESS,
+     CÓ THỂ ĐỔI ĐƯỜNG DẪN Ở ĐÂY.
+====================================================== -->
+
+<link
+    rel="preload"
+    href="cây đa.glb"
+    as="fetch"
+    crossorigin>
+
+
+<style>
+
+/* =====================================================
+   RESET
+====================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   KHỐI CHÍNH
+====================================================== */
+
+.cayda-container {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0 auto;
+    padding: 0;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   HAI NÚT
+====================================================== */
+
+.mode-switch {
+
+    position: absolute;
+
+    top: 8px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    height: 34px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    margin: 0;
+    padding: 3px;
+
+    background: rgba(255,248,232,0.9);
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+
+.mode-button {
+
+    border: none;
+
+    background: transparent;
+
+    padding: 5px 17px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #962d28;
+
+    cursor: pointer;
+
+    border-radius: 9px;
+
+    transition: 0.2s ease;
+}
+
+
+.mode-button:hover {
+
+    background: rgba(150,45,40,0.08);
+}
+
+
+.mode-button.active {
+
+    background: #962d28;
+
+    color: white;
+}
+
+
+/* =====================================================
+   NỘI DUNG
+====================================================== */
+
+.content-area {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+.tab-content {
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent !important;
+}
+
+
+.tab-content.active {
+
+    display: block;
+}
+
+
+/* =====================================================
+   TÌM HIỂU
+====================================================== */
+
+.info-panel {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: transparent;
+
+    overflow: hidden;
+}
+
+
+.info-panel img {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    box-shadow: none;
+
+    object-fit: cover;
+
+    object-position: center top;
+}
+
+
+@media (max-aspect-ratio: 3/2), (min-aspect-ratio: 11/5) {
+
+    .info-panel {
+
+        background: #f3e4bd;
+    }
+
+
+    .info-panel img {
+
+        object-fit: contain;
+
+        object-position: center;
+    }
+}
+
+
+/* =====================================================
+   TRẢI NGHIỆM BEFORE - AFTER
+   ====================================================== */
+
+*{box-sizing:border-box}
+body{margin:0;padding:0;background:transparent;font-family:Arial,sans-serif}
+.ba-wrap{width:78%;max-width:900px;margin:50px auto 0}
+.ba-slider{position:relative;width:100%;aspect-ratio:2048/1268;overflow:hidden;background:#f3e4bd;user-select:none;touch-action:none}
+.ba-after,.ba-before{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.ba-after{z-index:1}
+.ba-before{z-index:2;clip-path:inset(0 50% 0 0)}
+.ba-after img,.ba-before img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.ba-year{position:absolute;top:18px;z-index:8;padding:7px 13px;border-radius:4px;font-size:14px;font-weight:700;letter-spacing:1px}
+.ba-year-left{left:18px;background:rgba(150,45,40,.94);color:#fff}
+.ba-year-right{right:18px;background:rgba(243,228,189,.96);color:#962d28}
+.ba-line{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);z-index:10;box-shadow:0 0 5px rgba(0,0,0,.22);pointer-events:none}
+.ba-handle{position:absolute;top:50%;left:50%;width:54px;height:54px;transform:translate(-50%,-50%);z-index:12;border-radius:50%;background:#962d28;border:3px solid #fff;color:#fff;display:flex;align-items:center;justify-content:center;gap:2px;font-size:18px;font-weight:700;box-shadow:0 3px 12px rgba(0,0,0,.25);pointer-events:none}
+.ba-guide{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:13;padding:7px 14px;background:rgba(255,255,255,.9);color:#962d28;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.4px;white-space:nowrap;box-shadow:0 2px 7px rgba(0,0,0,.12);pointer-events:none}
+.ba-drag{position:absolute;inset:0;z-index:20;cursor:ew-resize}
+.ba-title{margin:12px 0 0;text-align:center;color:#962d28;font-size:20px;font-weight:700;line-height:1.3}
+@media(max-width:700px){
+.ba-year{top:10px;padding:5px 9px;font-size:11px}
+.ba-year-left{left:10px}.ba-year-right{right:10px}
+.ba-handle{width:44px;height:44px;font-size:15px}
+.ba-guide{bottom:10px;padding:6px 10px;font-size:9px}
+.ba-title{margin-top:9px;font-size:16px}
+}
+
+/* Điều chỉnh Before-After để thay thế khu vực trải nghiệm cũ */
+.ba-slider{border-radius:9px}
+@media(max-width:900px){
+  .ba-wrap{width:82%;margin-top:45px}
+}
+@media(max-width:600px){
+  .ba-wrap{width:94%;margin-top:40px}
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="cayda-container">
+
+
+    <!-- =====================================================
+         HAI NÚT
+    ====================================================== -->
+
+    <div class="mode-switch">
+
+        <button
+            class="mode-button active"
+            data-tab="info">
+
+            TÌM HIỂU
+
+        </button>
+
+
+        <button
+            class="mode-button"
+            data-tab="experience">
+
+            TRẢI NGHIỆM
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         NỘI DUNG
+    ====================================================== -->
+
+    <div class="content-area">
+
+
+        <!-- =================================================
+             TÌM HIỂU
+        ================================================== -->
+
+        <section
+            id="info"
+            class="tab-content active">
+
+            <div class="info-panel">
+
+                <img
+                    src="vua lý cuối kỳ.png"
+                    alt="Cây đa Báo Nhân Dân">
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TRẢI NGHIỆM
+        ================================================== -->
+
+        <section
+            id="experience"
+            class="tab-content">
+
+            <div class="ba-wrap">
+                <div class="ba-slider" id="baSlider">
+
+                    <div class="ba-after">
+                        <img src="LÝ NAY.png" alt="Ảnh hiện tại">
+                    </div>
+
+                    <div class="ba-before" id="baBefore">
+                        <img src="LÝ XƯA.png" alt="Ảnh xưa">
+                    </div>
+
+                    <div class="ba-year ba-year-left">1890</div>
+                    <div class="ba-year ba-year-right">2026</div>
+
+                    <div class="ba-line" id="baLine"></div>
+
+                    <div class="ba-handle" id="baHandle">
+                        <span>←</span><span>→</span>
+                    </div>
+
+                    <div class="ba-guide">← KÉO ĐỂ KHÁM PHÁ →</div>
+
+                    <div class="ba-drag" id="baDrag"></div>
+                </div>
+
+                <div class="ba-title">TƯỢNG ĐÀI VUA LÝ THÁI TỔ</div>
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CHUYỂN TAB
+===================================================== */
+
+const buttons =
+    document.querySelectorAll(".mode-button");
+
+const tabs =
+    document.querySelectorAll(".tab-content");
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        buttons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        tabs.forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        const target =
+            button.dataset.tab;
+
+        document
+            .getElementById(target)
+            .classList.add("active");
+    });
+
+});
+
+
+/* =====================================================
+   BEFORE - AFTER
+===================================================== */
+
+const slider = document.getElementById("baSlider");
+const before = document.getElementById("baBefore");
+const line = document.getElementById("baLine");
+const handle = document.getElementById("baHandle");
+const drag = document.getElementById("baDrag");
+
+let dragging = false;
+
+function moveSlider(clientX) {
+
+    const rect = slider.getBoundingClientRect();
+
+    let position =
+        ((clientX - rect.left) / rect.width) * 100;
+
+    position = Math.max(0, Math.min(100, position));
+
+    before.style.clipPath =
+        `inset(0 ${100 - position}% 0 0)`;
+
+    line.style.left =
+        position + "%";
+
+    handle.style.left =
+        position + "%";
+}
+
+drag.addEventListener("pointerdown", e => {
+
+    dragging = true;
+
+    drag.setPointerCapture(e.pointerId);
+
+    moveSlider(e.clientX);
+
+});
+
+drag.addEventListener("pointermove", e => {
+
+    if (dragging) {
+        moveSlider(e.clientX);
+    }
+
+});
+
+["pointerup", "pointercancel", "lostpointercapture"]
+    .forEach(type => {
+
+        drag.addEventListener(type, () => {
+            dragging = false;
+        });
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
